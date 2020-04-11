@@ -48,9 +48,23 @@ class Cards:
         # Now, we need to sort each suit by number
         self.cards[1:14].sort(key=Cards.value_key)
 
+    # These properties all return the number of the suit in a hand
     @property
     def spades(self):
-        return len(self.cards.filter())
+        return len(list(filter(lambda x: True if x[-1] is 'S' else False,
+        self.cards)))
+    @property
+    def hearts(self):
+        return len(list(filter(lambda x: True if x[-1] is 'H' else False,
+        self.cards)))
+    @property
+    def clubs(self):
+        return len(list(filter(lambda x: True if x[-1] is 'C' else False,
+        self.cards)))
+    @property
+    def diamonds(self):
+        return len(list(filter(lambda x: True if x[-1] is 'D' else False,
+        self.cards)))
 
     @staticmethod
     def suit_key(card):
@@ -83,3 +97,7 @@ deck.shuffle()
 deck.sort()
 
 print(deck)
+print(deck.spades)
+print(deck.hearts)
+print(deck.clubs)
+print(deck.spades)
