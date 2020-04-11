@@ -46,22 +46,29 @@ class Cards:
         # First we need to sort the cards by suit
         self.cards.sort(key=Cards.suit_key)
         # Now, we need to sort each suit by number
-        #self.cards[1:14].sort(key=Cards.value_key)
+        s1 = 1 if 'J' in self.cards else 0
+        s1 += self.spades()
+        s2 = s1 + self.hearts()
+        s3 = s2 + self.clubs()
+        sorted_cards = sorted(self.cards[s1:s2], key=Cards.value_key)
+        sorted_cards.extend(sorted(self.cards[s2:s3], key=Cards.value_key))
+        sorted_cards.extend(sorted(self.cards[s3:], key=Cards.value_key))
 
     # These properties all return the number of the suit in a hand
-    @property
+    # The property decorator means no parentheses needed when called
+    @classmethod
     def spades(self):
         return len(list(filter(lambda x: True if x[-1] is 'S' else False,
         self.cards)))
-    @property
+    @classmethod
     def hearts(self):
         return len(list(filter(lambda x: True if x[-1] is 'H' else False,
         self.cards)))
-    @property
+    @classmethod
     def clubs(self):
         return len(list(filter(lambda x: True if x[-1] is 'C' else False,
         self.cards)))
-    @property
+    @classmethod
     def diamonds(self):
         return len(list(filter(lambda x: True if x[-1] is 'D' else False,
         self.cards)))
@@ -90,16 +97,12 @@ class Cards:
                 dealt_hands[j].cards.append(self.cards.pop())
         return dealt_hands
 
-"""
 deck = Cards()
 deck.add_deck()
 deck.add_joker()
 deck.shuffle()
-deck.sort()
+(hand,) = deck.deal(1, 10)
 
-print(deck)
-print(deck.spades)
-print(deck.hearts)
-print(deck.clubs)
-print(deck.spades)
-"""
+print(hand)
+hand.sort()
+print(hand)

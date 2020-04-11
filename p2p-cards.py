@@ -1,13 +1,13 @@
 import pyp2p
 from mighty import *
 
-me = player('Michael')
-p1 = player('p1')
-p2 = player('p2')
-p3 = player('p3')
-p4 = player('p4')
+me = Player('Michael')
+p1 = Player('Layne')
+p2 = Player('Andrew')
+p3 = Player('Theo')
+p4 = Player('Ashley')
 
-table = mighty_table()
+table = MightyTable()
 
 table.deck.add_deck()
 table.deck.add_joker()
