@@ -18,7 +18,7 @@ class cards:
     @classmethod
     def add_deck(self, decks = 1):
         # First I define two lists, one with the numbers and one with suits
-        ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'])
+        ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
         suits = ['S', 'H', 'C', 'D']
         # I then add a deck by extending the cards list by adding a list that is
         # every combination of the two previous lists
