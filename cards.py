@@ -10,7 +10,10 @@ class Cards:
 
     # __str__     ->  The string representation of the cards object for printing
     def __str__(self):
-        return ', '.join(self.cards)
+        str = ''
+        for card in self.cards:
+            str += "{:>3}, ".format(card)
+        return str[:-2]
 
     # add_deck    ->  One optional argument to specify adding more than one 52
     #                 card deck to the cards
@@ -37,17 +40,51 @@ class Cards:
     # sort        ->  Arrange the cards in order by suit, one argument that
     # specifies whether you like the values right to left 'rtl' default, or left
     # to right 'ltr', otherwise known as reverse order for pagans
+    #
+    # TODO: After doing it, I realized there are better ways. It works so I'm
+    # leaving it for now, but I will rewrite it to use filter and map instead of
+    # needing to sort many different times
     def sort(self, direction='rtl'):
         # First we need to sort the cards by suit
         self.cards.sort(key=Cards.suit_key)
+
         # Now, we need to sort each suit by number
+        # Create the boundaries of each suit to slice
         s1 = 1 if 'J' in self.cards else 0
-        s1 += self.spades()
-        s2 = s1 + self.hearts()
-        s3 = s2 + self.clubs()
-        sorted_cards = sorted(self.cards[s1:s2], key=Cards.value_key)
-        sorted_cards.extend(sorted(self.cards[s2:s3], key=Cards.value_key))
-        sorted_cards.extend(sorted(self.cards[s3:], key=Cards.value_key))
+        s2 = s1 + self.spades()
+        s3 = s2 + self.hearts()
+        s4 = s3 + self.clubs()
+
+        # Sort spades
+        sorted_spades = sorted( self.cards[s1:s2], key=Cards.value_key,
+            reverse = False if direction is 'ltr' else True)
+
+        # Sort hearts
+        sorted_hearts = sorted( self.cards[s2:s3], key=Cards.value_key,
+            reverse = False if direction is 'ltr' else True)
+
+        # Sort clubs
+        sorted_clubs = sorted( self.cards[s3:s4], key=Cards.value_key,
+            reverse = False if direction is 'ltr' else True)
+
+        # Sort the fourth suit
+        sorted_diamonds = sorted( self.cards[s4:], key=Cards.value_key,
+            reverse = False if direction is 'ltr' else True)
+        
+        # Combine the suits in an order depending on what suits are had
+        if self.spades() and self.hearts() and self.clubs():
+            self.cards = (sorted_spades + sorted_hearts + sorted_clubs
+                + sorted_diamonds)
+
+        elif not self.hearts():
+            self.cards = sorted_spades + sorted_diamonds + sorted_clubs
+
+        elif not self.clubs():
+            self.cards =  sorted_hearts + sorted_spades + sorted_diamonds
+
+        # Add the Joker back in if it was in hand
+        if s1:
+            self.cards.insert(0, 'J')
 
     # These properties all return the number of the suit in a hand
     # The property decorator means no parentheses needed when called
@@ -86,15 +123,3 @@ class Cards:
             for j in range(hands):
                 dealt_hands[j].cards.append(self.cards.pop())
         return dealt_hands
-
-deck = Cards()
-deck.add_deck()
-deck.add_joker()
-deck.shuffle()
-
-(hand,) = deck.deal(1, 10)
-
-print(deck)
-print(hand)
-hand.sort()
-print(hand)

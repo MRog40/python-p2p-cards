@@ -10,7 +10,7 @@ p4 = Player('Ashley')
 table = MightyTable()
 
 table.deck.add_deck()
-table.deck.add_joker()
+table.deck.add_joker(1)
 table.deck.shuffle()
 
 (p1.hand, p2.hand, p3.hand, p4.hand, me.hand) = table.deck.deal(5, 10)
@@ -27,4 +27,4 @@ print(p2)
 print(p3)
 print(p4)
 print(me)
-
+print(table)

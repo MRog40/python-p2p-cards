@@ -6,7 +6,7 @@ class Player:
         self.name = name
 
     def __str__(self):
-        return self.name + ': ' + str(self.hand)
+        return "{:<12} {}".format(self.name + ': ', str(self.hand))
 
 class MightyTable:
     def __init__(self):
@@ -16,4 +16,4 @@ class MightyTable:
         self.deck = Cards()
         
     def __str__(self):
-        return 'Table: ' + str(self.deck)
+        return "{:<12} {}".format('Table: ', str(self.deck))
