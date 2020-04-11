@@ -90,6 +90,7 @@ class Cards:
                 dealt_hands[j].cards.append(self.cards.pop())
         return dealt_hands
 
+"""
 deck = Cards()
 deck.add_deck()
 deck.add_joker()
@@ -101,3 +102,4 @@ print(deck.spades)
 print(deck.hearts)
 print(deck.clubs)
 print(deck.spades)
+"""
