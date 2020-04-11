@@ -1,19 +1,13 @@
 import random
 
-def suit_key(card):
-    return {'J':0, 'S':1, 'H':2, 'C':3, 'D':4}[card[-1]]
-
-def value_key(card):
-    return {'2':0, '3':1, '4':2, '5':3, '6':4, '7':5, '8':6, '9':7, '1':8,
-    'J':9, 'Q':10, 'K':11, 'A':12}[card[0]]
-
 """
 This class is just a list for holding cards
 """
-class cards:
+class Cards:
+    cards = []
     # __init__    ->  Class instantiation, no arguments
     def __init__(self):
-        self.cards = []
+        self.cards
 
     # __str__     ->  The string representation of the cards object for printing
     def __str__(self):
@@ -28,11 +22,8 @@ class cards:
         suits = ['S', 'H', 'C', 'D']
         # I then add a deck by extending the cards list by adding a list that is
         # every combination of the two previous lists
-        """
         for i in range(decks):
             self.cards.extend([''.join((r, s)) for r in ranks for s in suits])
-        """
-        self.cards = [''.join((r, s)) for r in ranks for s in suits]
 
     # add_joker   ->  One optional argument to specify adding more than one
     #                 joker to the deck
@@ -53,9 +44,13 @@ class cards:
     @classmethod
     def sort(self, direction='rtl'):
         # First we need to sort the cards by suit
-        self.cards.sort(key=suit_key)
+        self.cards.sort(key=Cards.suit_key)
         # Now, we need to sort each suit by number
-        self.cards[1:14].sort(key=value_key)
+        self.cards[1:14].sort(key=Cards.value_key)
+
+    @property
+    def spades(self):
+        return len(self.cards.filter())
 
     @staticmethod
     def suit_key(card):
@@ -73,7 +68,7 @@ class cards:
     @classmethod
     def deal(self, hands, hand_size):
         # Create an empty tuple of size hands
-        dealt_hands = tuple(cards() for i in range(hands))
+        dealt_hands = tuple(Cards() for i in range(hands))
         # For the number of cards to be dealt per hand
         for i in range(hand_size):
             # Put the top card from the deck into each hand
@@ -81,7 +76,7 @@ class cards:
                 dealt_hands[j].cards.append(self.cards.pop())
         return dealt_hands
 
-deck = cards()
+deck = Cards()
 deck.add_deck()
 deck.add_joker()
 deck.shuffle()
