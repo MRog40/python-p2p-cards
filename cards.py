@@ -46,7 +46,7 @@ class Cards:
         # First we need to sort the cards by suit
         self.cards.sort(key=Cards.suit_key)
         # Now, we need to sort each suit by number
-        self.cards[1:14].sort(key=Cards.value_key)
+        #self.cards[1:14].sort(key=Cards.value_key)
 
     # These properties all return the number of the suit in a hand
     @property
