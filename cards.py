@@ -1,10 +1,16 @@
 import random
 
+def suit_key(card):
+    return {'J':0, 'S':1, 'H':2, 'C':3, 'D':4}[card[-1]]
+
+def value_key(card):
+    return {'2':0, '3':1, '4':2, '5':3, '6':4, '7':5, '8':6, '9':7, '1':8,
+    'J':9, 'Q':10, 'K':11, 'A':12}[card[0]]
+
 """
 This class is just a list for holding cards
 """
 class cards:
-    cards = []
     # __init__    ->  Class instantiation, no arguments
     def __init__(self):
         self.cards = []
@@ -22,8 +28,11 @@ class cards:
         suits = ['S', 'H', 'C', 'D']
         # I then add a deck by extending the cards list by adding a list that is
         # every combination of the two previous lists
+        """
         for i in range(decks):
             self.cards.extend([''.join((r, s)) for r in ranks for s in suits])
+        """
+        self.cards = [''.join((r, s)) for r in ranks for s in suits]
 
     # add_joker   ->  One optional argument to specify adding more than one
     #                 joker to the deck
@@ -43,7 +52,19 @@ class cards:
     # to right 'ltr', otherwise known as reverse order for pagans
     @classmethod
     def sort(self, direction='rtl'):
-        self.cards.sort(key = lambda card: card[1])
+        # First we need to sort the cards by suit
+        self.cards.sort(key=suit_key)
+        # Now, we need to sort each suit by number
+        self.cards[1:14].sort(key=value_key)
+
+    @staticmethod
+    def suit_key(card):
+        return {'J':0, 'S':1, 'H':2, 'C':3, 'D':4}[card[-1]]
+
+    @staticmethod
+    def value_key(card):
+        return {'2':0, '3':1, '4':2, '5':3, '6':4, '7':5, '8':6, '9':7, '1':8,
+        'J':9, 'Q':10, 'K':11, 'A':12}[card[0]]
 
     # deal        ->  remove cards from the top of the pile and add the removed
     #                 card to a new hand, then return a tuple of the amount of
@@ -60,15 +81,10 @@ class cards:
                 dealt_hands[j].cards.append(self.cards.pop())
         return dealt_hands
 
-
 deck = cards()
-
 deck.add_deck()
-
+deck.add_joker()
 deck.shuffle()
-
-print(', '.join(deck.cards))
-print(deck)
 deck.sort()
-print(deck)
 
+print(deck)
