@@ -32,7 +32,7 @@ class cards:
 
     @classmethod
     def deal(self, hands, hand_size):
-        dealt_hands = tuple(cards(str(i)) for i in range(hands))
+        dealt_hands = tuple(cards() for i in range(hands))
         for i in range(hand_size):
             for j in range(hands):
                 dealt_hands[j].cards.append(self.cards.pop())
