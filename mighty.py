@@ -8,6 +8,12 @@ class Player:
     def __str__(self):
         return "{:<12} {}".format(self.name + ': ', str(self.hand))
 
+    def get_card(self, card):
+        self.hand.add_card(card)
+
+    def give_card(self, index = -1):
+        return self.hand.play_card(index)
+
 class MightyTable:
     def __init__(self):
         self.trick = Cards()

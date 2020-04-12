@@ -5,8 +5,11 @@ This class is just a list for holding cards
 """
 class Cards:
     # __init__    ->  Class instantiation, no arguments
-    def __init__(self, decks = 0):
-        self.cards = []
+    def __init__(self, cards = None):
+        if cards is None:
+            self.cards = []
+        elif isinstance(cards, list):
+            self.cards = cards
 
     # __str__     ->  The string representation of the cards object for printing
     def __str__(self):
@@ -51,35 +54,30 @@ class Cards:
         # Now, we need to sort each suit by number
         # Create the boundaries of each suit to slice
         s1 = 1 if 'J' in self.cards else 0
-        s2 = s1 + self.spades()
-        s3 = s2 + self.hearts()
-        s4 = s3 + self.clubs()
+        s2 = s1 + self.spades
+        s3 = s2 + self.hearts
+        s4 = s3 + self.clubs
 
         # Sort spades
         sorted_spades = sorted( self.cards[s1:s2], key=Cards.value_key,
             reverse = False if direction is 'ltr' else True)
-
         # Sort hearts
         sorted_hearts = sorted( self.cards[s2:s3], key=Cards.value_key,
             reverse = False if direction is 'ltr' else True)
-
         # Sort clubs
         sorted_clubs = sorted( self.cards[s3:s4], key=Cards.value_key,
             reverse = False if direction is 'ltr' else True)
-
         # Sort the fourth suit
         sorted_diamonds = sorted( self.cards[s4:], key=Cards.value_key,
             reverse = False if direction is 'ltr' else True)
-        
+
         # Combine the suits in an order depending on what suits are had
-        if self.spades() and self.hearts() and self.clubs():
+        if self.spades and self.hearts and self.clubs:
             self.cards = (sorted_spades + sorted_hearts + sorted_clubs
                 + sorted_diamonds)
-
-        elif not self.hearts():
+        elif not self.hearts:
             self.cards = sorted_spades + sorted_diamonds + sorted_clubs
-
-        elif not self.clubs():
+        elif not self.clubs:
             self.cards =  sorted_hearts + sorted_spades + sorted_diamonds
 
         # Add the Joker back in if it was in hand
@@ -88,15 +86,19 @@ class Cards:
 
     # These properties all return the number of the suit in a hand
     # The property decorator means no parentheses needed when called
+    @property
     def spades(self):
         return len(list(filter(lambda x: True if x[-1] is 'S' else False,
         self.cards)))
+    @property
     def hearts(self):
         return len(list(filter(lambda x: True if x[-1] is 'H' else False,
         self.cards)))
+    @property
     def clubs(self):
         return len(list(filter(lambda x: True if x[-1] is 'C' else False,
         self.cards)))
+    @property
     def diamonds(self):
         return len(list(filter(lambda x: True if x[-1] is 'D' else False,
         self.cards)))
@@ -123,3 +125,12 @@ class Cards:
             for j in range(hands):
                 dealt_hands[j].cards.append(self.cards.pop())
         return dealt_hands
+
+    # play_card   ->  This function removes the card at the index and returns it
+    def play_card(self, index = -1):
+        return self.cards.pop(index)
+
+    # add_card    ->  This function adds a new card to to the end
+    def add_card(self, card):
+        self.cards.append(card)
+
