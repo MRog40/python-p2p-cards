@@ -1,4 +1,4 @@
-import pyp2p
+#import pyp2p
 from mighty import *
 
 me = Player('Michael')
@@ -12,6 +12,7 @@ table = MightyTable()
 table.deck.add_deck()
 table.deck.add_joker()
 table.deck.shuffle()
+
 
 (p1.hand, p2.hand, p3.hand, p4.hand, me.hand) = table.deck.deal(5, 10)
 

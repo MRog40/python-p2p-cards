@@ -23,3 +23,4 @@ class MightyTable:
         
     def __str__(self):
         return "{:<12} {}".format('Table: ', str(self.deck))
+
